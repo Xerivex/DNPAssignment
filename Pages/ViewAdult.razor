@@ -1,0 +1,85 @@
+﻿@page "/Adults"
+@attribute [Authorize(Policy = "adultaccess")]
+@using Data
+@using Models
+@inject IAdultHandler AdultHandler
+
+<h3>ViewAdult</h3>
+<p>
+    Filter by Adult Id: <input type="number" @oninput="@((arg) => filterByAdultID(arg))" style="width:50px" />
+</p>
+@if (adultsVisible == null) {
+    <p> <em>Please Wait</em></p>
+}
+else if (!adultsVisible.Any()) {
+    <p><em>No Adults exist</em></p>
+}
+else {
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Job Title</th>
+                <th>Adult ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Hair Colour</th>
+                <th>Eye Colour</th>
+                <th>Age</th>
+                <th>Weight</th>
+                <th>Height</th>
+                <th>Sex</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var adult in adultsVisible) {
+            <tr>
+                <td>@adult.JobTitle</td>
+                <td>@adult.Id</td>
+                <td>@adult.FirstName</td>
+                <td>@adult.LastName</td>
+                <td>@adult.HairColor</td>
+                <td>@adult.EyeColor</td>
+                <td>@adult.Age</td>
+                <td>@adult.Weight</td>
+                <td>@adult.Height</td>
+                <td>@adult.Sex</td>
+                <td><button @onclick="@(() => removeAdult(adult.Id))">
+                    <i class="oi oi-trash" style="color:blue"></i></button></td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IList<Models.Adult> adultsVisible;
+    private IList<Models.Adult> adultsAll1;
+
+    private int? filterByID;
+
+    private void filterByAdultID(ChangeEventArgs changeEventArgs) {
+        filterByID = null;
+        try {
+            filterByID = int.Parse(changeEventArgs.Value.ToString());
+        }
+        catch (Exception e) { }
+        ExecuteFilter();
+    }
+
+    private void ExecuteFilter() {
+        adultsVisible = adultsAll1.Where(a =>
+        (filterByID != null && a.Id == filterByID || filterByID == null)).ToList();
+    }
+
+    protected override async Task OnInitializedAsync() {
+        adultsAll1 = AdultHandler.AquireAdults();
+        adultsVisible = adultsAll1;
+    }
+
+    private void removeAdult(int adultID) {
+        Models.Adult adultRemoval = adultsVisible.First(a => a.Id == adultID);
+        AdultHandler.removeAdult(adultID);
+        adultsVisible.Remove(adultRemoval);
+    }
+}
