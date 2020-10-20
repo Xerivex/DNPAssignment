@@ -32,8 +32,8 @@ namespace DNPAssignment {
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
 
             services.AddAuthorization(config => {
-                config.AddPolicy("adultaddaccess", cfg => cfg.RequireClaim("Role","Administrator"));
-                config.AddPolicy("adultaccess", cfg => cfg.RequireAuthenticatedUser());
+                config.AddPolicy("adultaddaccess", cfg => cfg.RequireAuthenticatedUser().RequireClaim("Role","Administrator"));
+                config.AddPolicy("adultaccess", cfg => cfg.RequireAuthenticatedUser().RequireClaim("Role", "user", "Administrator"));
             });
         }
 

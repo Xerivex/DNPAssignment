@@ -28,6 +28,7 @@ namespace DNPAssignment.Data {
             User newUser = new User();
             newUser.UserName = username;
             newUser.Password = password;
+            newUser.Role = "user";
             newUser.SecurityLevel = 1;
             users.Add(newUser);
             WriteUsersToFile();

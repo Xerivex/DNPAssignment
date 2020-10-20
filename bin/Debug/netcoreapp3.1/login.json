@@ -1,1 +1,23 @@
-[{"UserName":"Admin","BirthYear":1998,"Role":"Administrator","SecurityLevel":2,"Password":"admin"},{"UserName":"user1","BirthYear":0,"Role":null,"SecurityLevel":1,"Password":"1234"}]
+[
+    {
+        "UserName": "Admin",
+        "BirthYear": 1998,
+        "Role": "Administrator",
+        "SecurityLevel": 1,
+        "Password": "admin"
+    },
+    {
+        "UserName": "user1",
+        "BirthYear": 0,
+        "Role": "user",
+        "SecurityLevel": 1,
+        "Password": "1234"
+    },
+    {
+        "UserName": "user2",
+        "BirthYear": 0,
+        "Role": "user",
+        "SecurityLevel": 1,
+        "Password": "123"
+    }
+]
